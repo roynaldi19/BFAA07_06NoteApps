@@ -1,7 +1,8 @@
-package com.roynaldi19.bfaa07_06noteapps
+package com.roynaldi19.bfaa07_06noteapps.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.roynaldi19.bfaa07_06noteapps.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

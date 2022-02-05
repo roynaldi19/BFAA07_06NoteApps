@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BFAA07_06NoteApps">
         <activity
+            android:name=".view.insert.NoteAddUpdateActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.MainActivity"
             android:exported="true">
             <intent-filter>
