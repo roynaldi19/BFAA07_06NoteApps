@@ -1,12 +1,51 @@
 package com.roynaldi19.bfaa07_06noteapps.view.main
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.roynaldi19.ViewModelFactory
 import com.roynaldi19.bfaa07_06noteapps.R
+import com.roynaldi19.bfaa07_06noteapps.databinding.ActivityMainBinding
+import com.roynaldi19.bfaa07_06noteapps.view.insert.NoteAddUpdateActivity
 
 class MainActivity : AppCompatActivity() {
+
+    private var _activityMainBinding: ActivityMainBinding? = null
+    private val binding get() = _activityMainBinding
+
+    private lateinit var adapter: NoteAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        _activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
+
+        val mainViewModel = obtainViewModel(this@MainActivity)
+        mainViewModel.getAllNotes().observe(this) { noteList ->
+            if (noteList != null) {
+                adapter.setListNotes(noteList)
+            }
+        }
+
+        adapter = NoteAdapter()
+
+        binding?.rvNotes?.layoutManager = LinearLayoutManager(this)
+        binding?.rvNotes?.setHasFixedSize(true)
+        binding?.rvNotes?.adapter = adapter
+
+        binding?.fabAdd?.setOnClickListener { view ->
+            if (view.id == R.id.fab_add) {
+                val intent = Intent(this@MainActivity, NoteAddUpdateActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity): MainViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory).get(MainViewModel::class.java)
     }
 }
